@@ -227,7 +227,3 @@ objects:
       routerCanonicalHostname: apps.ocp-na1.prod.nextcle.com
       routerName: default
       wildcardPolicy: None
-kind: List
-metadata:
-  resourceVersion: ""
-  selfLink: ""
