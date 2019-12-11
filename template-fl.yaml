@@ -1,5 +1,8 @@
+kind: Template
 apiVersion: v1
-items:
+metadata:
+  name: my-template
+objects:
 - apiVersion: v1
   kind: Service
   metadata:
