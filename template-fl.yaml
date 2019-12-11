@@ -1,0 +1,1671 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/networks-status: ""
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container sti-build; cpu, memory limit for container sti-build; cpu, memory
+        request for init container git-clone; cpu, memory limit for init container
+        git-clone; cpu, memory request for init container manage-dockerfile; cpu,
+        memory limit for init container manage-dockerfile'
+      openshift.io/build.name: jhost-1
+      openshift.io/scc: privileged
+    creationTimestamp: "2019-12-11T07:44:13Z"
+    labels:
+      openshift.io/build.name: jhost-1
+    name: jhost-1-build
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: Build
+      name: jhost-1
+      uid: 068aeb59-1bea-11ea-b04b-0a580a820134
+    resourceVersion: "54625457"
+    selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/pods/jhost-1-build
+    uid: 06a430fd-1bea-11ea-8544-12bd13d94826
+  spec:
+    containers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-sti-build
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"jhost-1","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-1","uid":"068aeb59-1bea-11ea-b04b-0a580a820134","resourceVersion":"54623738","creationTimestamp":"2019-12-11T07:44:13Z","labels":{"app":"jhost","buildconfig":"jhost","openshift.io/build-config.name":"jhost","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"jhost","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"jhost","uid":"066afaa3-1bea-11ea-8648-0a580a810062","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/FlorinLacatusu/DO288-apps","ref":"manage-builds"},"contextDir":"java-serverhost"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15"},"pullSecret":{"name":"builder-dockercfg-xwjzj"},"env":[{"name":"MAVEN_MIRROR_URL","value":"http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java"}]}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest"},"pushSecret":{"name":"builder-dockercfg-xwjzj"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"redhat-openjdk18-openshift:1.5"}}}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest","config":{"kind":"BuildConfig","namespace":"florinlacatusu-manage-builds","name":"jhost"},"output":{}}}
+      - name: LANG
+        value: en_US.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_URI
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_CONTEXT_DIR
+        value: java-serverhost
+      - name: SOURCE_REF
+        value: manage-builds
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      - name: PULL_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/pull
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_STORAGE_DRIVER
+        value: overlay
+      - name: BUILD_ISOLATION
+        value: chroot
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imagePullPolicy: IfNotPresent
+      name: sti-build
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      securityContext:
+        privileged: true
+        procMount: Default
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/lib/containers/cache
+        name: buildcachedir
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-xwjzj-push
+        readOnly: true
+      - mountPath: /var/run/secrets/openshift.io/pull
+        name: builder-dockercfg-xwjzj-pull
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/certs
+        name: build-ca-bundles
+      - mountPath: /var/lib/containers/storage
+        name: container-storage-root
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-dww4d
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: builder-dockercfg-xwjzj
+    initContainers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-git-clone
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"jhost-1","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-1","uid":"068aeb59-1bea-11ea-b04b-0a580a820134","resourceVersion":"54623738","creationTimestamp":"2019-12-11T07:44:13Z","labels":{"app":"jhost","buildconfig":"jhost","openshift.io/build-config.name":"jhost","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"jhost","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"jhost","uid":"066afaa3-1bea-11ea-8648-0a580a810062","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/FlorinLacatusu/DO288-apps","ref":"manage-builds"},"contextDir":"java-serverhost"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15"},"pullSecret":{"name":"builder-dockercfg-xwjzj"},"env":[{"name":"MAVEN_MIRROR_URL","value":"http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java"}]}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest"},"pushSecret":{"name":"builder-dockercfg-xwjzj"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"redhat-openjdk18-openshift:1.5"}}}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest","config":{"kind":"BuildConfig","namespace":"florinlacatusu-manage-builds","name":"jhost"},"output":{}}}
+      - name: LANG
+        value: en_US.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_URI
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_CONTEXT_DIR
+        value: java-serverhost
+      - name: SOURCE_REF
+        value: manage-builds
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imagePullPolicy: IfNotPresent
+      name: git-clone
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-dww4d
+        readOnly: true
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-manage-dockerfile
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"jhost-1","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-1","uid":"068aeb59-1bea-11ea-b04b-0a580a820134","resourceVersion":"54623738","creationTimestamp":"2019-12-11T07:44:13Z","labels":{"app":"jhost","buildconfig":"jhost","openshift.io/build-config.name":"jhost","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"jhost","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"jhost","uid":"066afaa3-1bea-11ea-8648-0a580a810062","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/FlorinLacatusu/DO288-apps","ref":"manage-builds"},"contextDir":"java-serverhost"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15"},"pullSecret":{"name":"builder-dockercfg-xwjzj"},"env":[{"name":"MAVEN_MIRROR_URL","value":"http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java"}]}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest"},"pushSecret":{"name":"builder-dockercfg-xwjzj"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"redhat-openjdk18-openshift:1.5"}}}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest","config":{"kind":"BuildConfig","namespace":"florinlacatusu-manage-builds","name":"jhost"},"output":{}}}
+      - name: LANG
+        value: en_US.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_URI
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_CONTEXT_DIR
+        value: java-serverhost
+      - name: SOURCE_REF
+        value: manage-builds
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imagePullPolicy: IfNotPresent
+      name: manage-dockerfile
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-dww4d
+        readOnly: true
+    nodeName: ip-10-0-188-0.ec2.internal
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - hostPath:
+        path: /var/lib/containers/cache
+        type: ""
+      name: buildcachedir
+    - emptyDir: {}
+      name: buildworkdir
+    - name: builder-dockercfg-xwjzj-push
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-xwjzj
+    - name: builder-dockercfg-xwjzj-pull
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-xwjzj
+    - configMap:
+        defaultMode: 420
+        name: jhost-1-sys-config
+      name: build-system-configs
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: service-ca.crt
+          path: certs.d/image-registry.openshift-image-registry.svc:5000/ca.crt
+        name: jhost-1-ca
+      name: build-ca-bundles
+    - emptyDir: {}
+      name: container-storage-root
+    - emptyDir: {}
+      name: build-blob-cache
+    - name: builder-token-dww4d
+      secret:
+        defaultMode: 420
+        secretName: builder-token-dww4d
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T07:44:25Z"
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T07:48:38Z"
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T07:48:38Z"
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T07:44:13Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://26ff5a1dbbbb01f4998efceb5a56a3b633ad1c46652ae65e2bb50e0af447669b
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      lastState: {}
+      name: sti-build
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://26ff5a1dbbbb01f4998efceb5a56a3b633ad1c46652ae65e2bb50e0af447669b
+          exitCode: 0
+          finishedAt: "2019-12-11T07:48:37Z"
+          reason: Completed
+          startedAt: "2019-12-11T07:44:26Z"
+    hostIP: 10.0.188.0
+    initContainerStatuses:
+    - containerID: cri-o://aa92666db912f9c257b9eacaf7398f8f590798fc931de8c07aa71b282954af89
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      lastState: {}
+      name: git-clone
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://aa92666db912f9c257b9eacaf7398f8f590798fc931de8c07aa71b282954af89
+          exitCode: 0
+          finishedAt: "2019-12-11T07:44:24Z"
+          reason: Completed
+          startedAt: "2019-12-11T07:44:22Z"
+    - containerID: cri-o://690f9dde2eabd6d0bad51a197d6b7ec728ef8bed921b7933d9374b655085b765
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      lastState: {}
+      name: manage-dockerfile
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://690f9dde2eabd6d0bad51a197d6b7ec728ef8bed921b7933d9374b655085b765
+          exitCode: 0
+          finishedAt: "2019-12-11T07:44:25Z"
+          reason: Completed
+          startedAt: "2019-12-11T07:44:25Z"
+    phase: Succeeded
+    podIP: 10.130.5.45
+    qosClass: Burstable
+    startTime: "2019-12-11T07:44:13Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/networks-status: ""
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container deployment; cpu, memory limit for container deployment'
+      openshift.io/deployment-config.name: jhost
+      openshift.io/deployment.name: jhost-2
+      openshift.io/scc: restricted
+    creationTimestamp: "2019-12-11T08:02:41Z"
+    labels:
+      openshift.io/deployer-pod-for.name: jhost-2
+    name: jhost-2-deploy
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: v1
+      kind: ReplicationController
+      name: jhost-2
+      uid: 9ae79d3f-1bec-11ea-8544-12bd13d94826
+    resourceVersion: "54631147"
+    selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/pods/jhost-2-deploy
+    uid: 9aedd404-1bec-11ea-8544-12bd13d94826
+  spec:
+    activeDeadlineSeconds: 21600
+    containers:
+    - env:
+      - name: OPENSHIFT_DEPLOYMENT_NAME
+        value: jhost-2
+      - name: OPENSHIFT_DEPLOYMENT_NAMESPACE
+        value: florinlacatusu-manage-builds
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d4486bee98ccb63a8f59a553f88b11955e557430b62de8c0b931e49e837ef803
+      imagePullPolicy: IfNotPresent
+      name: deployment
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        procMount: Default
+        runAsUser: 1002050000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: deployer-token-psz6q
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: deployer-dockercfg-b68dh
+    nodeName: ip-10-0-167-172.ec2.internal
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1002050000
+      seLinuxOptions:
+        level: s0:c45,c35
+    serviceAccount: deployer
+    serviceAccountName: deployer
+    shareProcessNamespace: false
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: deployer-token-psz6q
+      secret:
+        defaultMode: 420
+        secretName: deployer-token-psz6q
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:02:41Z"
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:03:12Z"
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:03:12Z"
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:02:41Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://ad683d8e4cd396defe9a6eeb06073b170677482de8561d50337ffc6f18b56b4c
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d4486bee98ccb63a8f59a553f88b11955e557430b62de8c0b931e49e837ef803
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d4486bee98ccb63a8f59a553f88b11955e557430b62de8c0b931e49e837ef803
+      lastState: {}
+      name: deployment
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://ad683d8e4cd396defe9a6eeb06073b170677482de8561d50337ffc6f18b56b4c
+          exitCode: 0
+          finishedAt: "2019-12-11T08:03:12Z"
+          reason: Completed
+          startedAt: "2019-12-11T08:02:49Z"
+    hostIP: 10.0.167.172
+    phase: Succeeded
+    podIP: 10.128.3.224
+    qosClass: Burstable
+    startTime: "2019-12-11T08:02:41Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/networks-status: |-
+        [{
+            "name": "openshift-sdn",
+            "interface": "eth0",
+            "ips": [
+                "10.128.4.96"
+            ],
+            "default": true,
+            "dns": {}
+        }]
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container jhost; cpu, memory limit for container jhost'
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: jhost
+      openshift.io/deployment.name: jhost-2
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: "2019-12-11T08:02:50Z"
+    generateName: jhost-2-
+    labels:
+      app: jhost
+      deployment: jhost-2
+      deploymentconfig: jhost
+    name: jhost-2-gnwdh
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: jhost-2
+      uid: 9ae79d3f-1bec-11ea-8544-12bd13d94826
+    resourceVersion: "54631105"
+    selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/pods/jhost-2-gnwdh
+    uid: a097784b-1bec-11ea-9f65-0e3bf1a18b56
+  spec:
+    containers:
+    - image: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+      imagePullPolicy: Always
+      name: jhost
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      - containerPort: 8443
+        protocol: TCP
+      - containerPort: 8778
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        procMount: Default
+        runAsUser: 1002050000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-mnzxz
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: default-dockercfg-xb4fl
+    nodeName: ip-10-0-136-91.ec2.internal
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1002050000
+      seLinuxOptions:
+        level: s0:c45,c35
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: default-token-mnzxz
+      secret:
+        defaultMode: 420
+        secretName: default-token-mnzxz
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:02:50Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:03:09Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:03:09Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:02:50Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://79f3a7cb91ed43cefb0df77a47c094f95eb59a40b89ae2b6d811cc5c0e7a954a
+      image: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+      imageID: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+      lastState: {}
+      name: jhost
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: "2019-12-11T08:03:08Z"
+    hostIP: 10.0.136.91
+    phase: Running
+    podIP: 10.128.4.96
+    qosClass: Burstable
+    startTime: "2019-12-11T08:02:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/networks-status: ""
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container sti-build; cpu, memory limit for container sti-build; cpu, memory
+        request for init container git-clone; cpu, memory limit for init container
+        git-clone; cpu, memory request for init container manage-dockerfile; cpu,
+        memory limit for init container manage-dockerfile'
+      openshift.io/build.name: jhost-3
+      openshift.io/scc: privileged
+    creationTimestamp: "2019-12-11T07:58:11Z"
+    labels:
+      openshift.io/build.name: jhost-3
+    name: jhost-3-build
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: Build
+      name: jhost-3
+      uid: f9dd174f-1beb-11ea-8648-0a580a810062
+    resourceVersion: "54630938"
+    selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/pods/jhost-3-build
+    uid: fa002500-1beb-11ea-8544-12bd13d94826
+  spec:
+    containers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-sti-build
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"jhost-3","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-3","uid":"f9dd174f-1beb-11ea-8648-0a580a810062","resourceVersion":"54629272","creationTimestamp":"2019-12-11T07:58:11Z","labels":{"app":"jhost","buildconfig":"jhost","openshift.io/build-config.name":"jhost","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"jhost","openshift.io/build.number":"3"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"jhost","uid":"066afaa3-1bea-11ea-8648-0a580a810062","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/FlorinLacatusu/DO288-apps","ref":"manage-builds"},"contextDir":"java-serverhost"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15"},"pullSecret":{"name":"builder-dockercfg-xwjzj"},"env":[{"name":"MAVEN_MIRROR_URL","value":"http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java"}]}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest"},"pushSecret":{"name":"builder-dockercfg-xwjzj"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Manually triggered"}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest","config":{"kind":"BuildConfig","namespace":"florinlacatusu-manage-builds","name":"jhost"},"output":{}}}
+      - name: LANG
+        value: en_US.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_URI
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_CONTEXT_DIR
+        value: java-serverhost
+      - name: SOURCE_REF
+        value: manage-builds
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      - name: PULL_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/pull
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_STORAGE_DRIVER
+        value: overlay
+      - name: BUILD_ISOLATION
+        value: chroot
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imagePullPolicy: IfNotPresent
+      name: sti-build
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      securityContext:
+        privileged: true
+        procMount: Default
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/lib/containers/cache
+        name: buildcachedir
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-xwjzj-push
+        readOnly: true
+      - mountPath: /var/run/secrets/openshift.io/pull
+        name: builder-dockercfg-xwjzj-pull
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/run/configs/openshift.io/certs
+        name: build-ca-bundles
+      - mountPath: /var/lib/containers/storage
+        name: container-storage-root
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-dww4d
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: builder-dockercfg-xwjzj
+    initContainers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-git-clone
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"jhost-3","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-3","uid":"f9dd174f-1beb-11ea-8648-0a580a810062","resourceVersion":"54629272","creationTimestamp":"2019-12-11T07:58:11Z","labels":{"app":"jhost","buildconfig":"jhost","openshift.io/build-config.name":"jhost","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"jhost","openshift.io/build.number":"3"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"jhost","uid":"066afaa3-1bea-11ea-8648-0a580a810062","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/FlorinLacatusu/DO288-apps","ref":"manage-builds"},"contextDir":"java-serverhost"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15"},"pullSecret":{"name":"builder-dockercfg-xwjzj"},"env":[{"name":"MAVEN_MIRROR_URL","value":"http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java"}]}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest"},"pushSecret":{"name":"builder-dockercfg-xwjzj"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Manually triggered"}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest","config":{"kind":"BuildConfig","namespace":"florinlacatusu-manage-builds","name":"jhost"},"output":{}}}
+      - name: LANG
+        value: en_US.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_URI
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_CONTEXT_DIR
+        value: java-serverhost
+      - name: SOURCE_REF
+        value: manage-builds
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imagePullPolicy: IfNotPresent
+      name: git-clone
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-dww4d
+        readOnly: true
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-manage-dockerfile
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"jhost-3","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-3","uid":"f9dd174f-1beb-11ea-8648-0a580a810062","resourceVersion":"54629272","creationTimestamp":"2019-12-11T07:58:11Z","labels":{"app":"jhost","buildconfig":"jhost","openshift.io/build-config.name":"jhost","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"jhost","openshift.io/build.number":"3"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"jhost","uid":"066afaa3-1bea-11ea-8648-0a580a810062","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/FlorinLacatusu/DO288-apps","ref":"manage-builds"},"contextDir":"java-serverhost"},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15"},"pullSecret":{"name":"builder-dockercfg-xwjzj"},"env":[{"name":"MAVEN_MIRROR_URL","value":"http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java"}]}},"output":{"to":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest"},"pushSecret":{"name":"builder-dockercfg-xwjzj"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Manually triggered"}]},"status":{"phase":"New","outputDockerImageReference":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest","config":{"kind":"BuildConfig","namespace":"florinlacatusu-manage-builds","name":"jhost"},"output":{}}}
+      - name: LANG
+        value: en_US.utf8
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_URI
+        value: https://github.com/FlorinLacatusu/DO288-apps
+      - name: SOURCE_CONTEXT_DIR
+        value: java-serverhost
+      - name: SOURCE_REF
+        value: manage-builds
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: BUILD_REGISTRIES_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.conf
+      - name: BUILD_REGISTRIES_DIR_PATH
+        value: /var/run/configs/openshift.io/build-system/registries.d
+      - name: BUILD_SIGNATURE_POLICY_PATH
+        value: /var/run/configs/openshift.io/build-system/policy.json
+      - name: BUILD_STORAGE_CONF_PATH
+        value: /var/run/configs/openshift.io/build-system/storage.conf
+      - name: BUILD_BLOBCACHE_DIR
+        value: /var/cache/blobs
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imagePullPolicy: IfNotPresent
+      name: manage-dockerfile
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 50Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/configs/openshift.io/build-system
+        name: build-system-configs
+        readOnly: true
+      - mountPath: /var/cache/blobs
+        name: build-blob-cache
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-dww4d
+        readOnly: true
+    nodeName: ip-10-0-136-91.ec2.internal
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - hostPath:
+        path: /var/lib/containers/cache
+        type: ""
+      name: buildcachedir
+    - emptyDir: {}
+      name: buildworkdir
+    - name: builder-dockercfg-xwjzj-push
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-xwjzj
+    - name: builder-dockercfg-xwjzj-pull
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-xwjzj
+    - configMap:
+        defaultMode: 420
+        name: jhost-3-sys-config
+      name: build-system-configs
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: service-ca.crt
+          path: certs.d/image-registry.openshift-image-registry.svc:5000/ca.crt
+        name: jhost-3-ca
+      name: build-ca-bundles
+    - emptyDir: {}
+      name: container-storage-root
+    - emptyDir: {}
+      name: build-blob-cache
+    - name: builder-token-dww4d
+      secret:
+        defaultMode: 420
+        secretName: builder-token-dww4d
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T07:58:27Z"
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:02:41Z"
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T08:02:41Z"
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2019-12-11T07:58:11Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: cri-o://ead3f9d0a637bcf34f108841497db888487db0089142cd53adedf2da0505d6be
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      lastState: {}
+      name: sti-build
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://ead3f9d0a637bcf34f108841497db888487db0089142cd53adedf2da0505d6be
+          exitCode: 0
+          finishedAt: "2019-12-11T08:02:41Z"
+          reason: Completed
+          startedAt: "2019-12-11T07:58:28Z"
+    hostIP: 10.0.136.91
+    initContainerStatuses:
+    - containerID: cri-o://0be457a3fee43efe0fe1af4eb1c8e06c5f13953a7fd6f4fbb14c99c2596cfe9c
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      lastState: {}
+      name: git-clone
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://0be457a3fee43efe0fe1af4eb1c8e06c5f13953a7fd6f4fbb14c99c2596cfe9c
+          exitCode: 0
+          finishedAt: "2019-12-11T07:58:26Z"
+          reason: Completed
+          startedAt: "2019-12-11T07:58:20Z"
+    - containerID: cri-o://f0a7aa35631c1da5cf4ecc7794d08c0c08e039961278904cd297d929b1a6511b
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      imageID: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0d44455a6b042a67bfb7bcdfe30ff4f2d51478de246f606813dd72c892dc7061
+      lastState: {}
+      name: manage-dockerfile
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: cri-o://f0a7aa35631c1da5cf4ecc7794d08c0c08e039961278904cd297d929b1a6511b
+          exitCode: 0
+          finishedAt: "2019-12-11T07:58:27Z"
+          reason: Completed
+          startedAt: "2019-12-11T07:58:27Z"
+    phase: Succeeded
+    podIP: 10.128.4.93
+    qosClass: Burstable
+    startTime: "2019-12-11T07:58:11Z"
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-12-11 07:49:07 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-12-11 07:48:38 +0000 UTC
+      openshift.io/deployer-pod.name: jhost-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: jhost
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"jhost","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/apps.openshift.io/v1/namespaces/florinlacatusu-manage-builds/deploymentconfigs/jhost","uid":"067eefb4-1bea-11ea-8648-0a580a810062","resourceVersion":"54625436","generation":2,"creationTimestamp":"2019-12-11T07:44:13Z","labels":{"app":"jhost"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["jhost"],"from":{"kind":"ImageStreamTag","namespace":"florinlacatusu-manage-builds","name":"jhost:latest"},"lastTriggeredImage":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:ddc51835743615bfafe2ec98b72f350afe62a0b76bc92f4d63558cc4398cd33b"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"jhost","deploymentconfig":"jhost"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"jhost","deploymentconfig":"jhost"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"jhost","image":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:ddc51835743615bfafe2ec98b72f350afe62a0b76bc92f4d63558cc4398cd33b","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"},{"containerPort":8778,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":1,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2019-12-11T07:44:13Z","lastTransitionTime":"2019-12-11T07:44:13Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: "2019-12-11T07:48:38Z"
+    generation: 3
+    labels:
+      app: jhost
+      openshift.io/deployment-config.name: jhost
+    name: jhost-1
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: jhost
+      uid: 067eefb4-1bea-11ea-8648-0a580a810062
+    resourceVersion: "54631117"
+    selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/replicationcontrollers/jhost-1
+    uid: a46dc580-1bea-11ea-8544-12bd13d94826
+  spec:
+    replicas: 0
+    selector:
+      app: jhost
+      deployment: jhost-1
+      deploymentconfig: jhost
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: jhost
+          openshift.io/deployment.name: jhost-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: jhost
+          deployment: jhost-1
+          deploymentconfig: jhost
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:ddc51835743615bfafe2ec98b72f350afe62a0b76bc92f4d63558cc4398cd33b
+          imagePullPolicy: Always
+          name: jhost
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          - containerPort: 8778
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-12-11 08:03:12 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-12-11 08:02:41 +0000 UTC
+      openshift.io/deployer-pod.name: jhost-2-deploy
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: jhost
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: image change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"jhost","namespace":"florinlacatusu-manage-builds","selfLink":"/apis/apps.openshift.io/v1/namespaces/florinlacatusu-manage-builds/deploymentconfigs/jhost","uid":"067eefb4-1bea-11ea-8648-0a580a810062","resourceVersion":"54630917","generation":3,"creationTimestamp":"2019-12-11T07:44:13Z","labels":{"app":"jhost"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["jhost"],"from":{"kind":"ImageStreamTag","namespace":"florinlacatusu-manage-builds","name":"jhost:latest"},"lastTriggeredImage":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"jhost","deploymentconfig":"jhost"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"jhost","deploymentconfig":"jhost"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"jhost","image":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"},{"containerPort":8778,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":2,"observedGeneration":2,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"image change","causes":[{"type":"ImageChange","imageTrigger":{"from":{"kind":"DockerImage","name":"image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e"}}}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-12-11T07:49:07Z","lastTransitionTime":"2019-12-11T07:49:07Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-12-11T07:49:08Z","lastTransitionTime":"2019-12-11T07:48:48Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"jhost-1\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: "2019-12-11T08:02:41Z"
+    generation: 2
+    labels:
+      app: jhost
+      openshift.io/deployment-config.name: jhost
+    name: jhost-2
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: jhost
+      uid: 067eefb4-1bea-11ea-8648-0a580a810062
+    resourceVersion: "54631144"
+    selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/replicationcontrollers/jhost-2
+    uid: 9ae79d3f-1bec-11ea-8544-12bd13d94826
+  spec:
+    replicas: 1
+    selector:
+      app: jhost
+      deployment: jhost-2
+      deploymentconfig: jhost
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "2"
+          openshift.io/deployment-config.name: jhost
+          openshift.io/deployment.name: jhost-2
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: jhost
+          deployment: jhost-2
+          deploymentconfig: jhost
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+          imagePullPolicy: Always
+          name: jhost
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          - containerPort: 8778
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-12-11T07:44:13Z"
+    labels:
+      app: jhost
+    name: jhost
+    namespace: florinlacatusu-manage-builds
+    resourceVersion: "54623736"
+    selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/services/jhost
+    uid: 068bc8cc-1bea-11ea-9f65-0e3bf1a18b56
+  spec:
+    clusterIP: 172.30.105.102
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    - name: 8778-tcp
+      port: 8778
+      protocol: TCP
+      targetPort: 8778
+    selector:
+      app: jhost
+      deploymentconfig: jhost
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-12-11T07:44:13Z"
+    generation: 3
+    labels:
+      app: jhost
+    name: jhost
+    namespace: florinlacatusu-manage-builds
+    resourceVersion: "54631146"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/florinlacatusu-manage-builds/deploymentconfigs/jhost
+    uid: 067eefb4-1bea-11ea-8648-0a580a810062
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: jhost
+      deploymentconfig: jhost
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: jhost
+          deploymentconfig: jhost
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+          imagePullPolicy: Always
+          name: jhost
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          - containerPort: 8778
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - jhost
+        from:
+          kind: ImageStreamTag
+          name: jhost:latest
+          namespace: florinlacatusu-manage-builds
+        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2019-12-11T07:49:07Z"
+      lastUpdateTime: "2019-12-11T07:49:07Z"
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2019-12-11T08:03:10Z"
+      lastUpdateTime: "2019-12-11T08:03:12Z"
+      message: replication controller "jhost-2" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - imageTrigger:
+          from:
+            kind: DockerImage
+            name: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+        type: ImageChange
+      message: image change
+    latestVersion: 2
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-12-11T07:44:13Z"
+    labels:
+      app: jhost
+    name: jhost
+    namespace: florinlacatusu-manage-builds
+    resourceVersion: "54629271"
+    selfLink: /apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/buildconfigs/jhost
+    uid: 066afaa3-1bea-11ea-8648-0a580a810062
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: jhost:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: java-serverhost
+      git:
+        ref: manage-builds
+        uri: https://github.com/FlorinLacatusu/DO288-apps
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java
+        from:
+          kind: ImageStreamTag
+          name: redhat-openjdk18-openshift:1.5
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: VYSHuBbURGzGd9oSxuIp
+      type: GitHub
+    - generic:
+        secret: YKrH2u1JeR9fek_U_Gnn
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15
+      type: ImageChange
+  status:
+    lastVersion: 3
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: jhost
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: jhost-1-build
+    creationTimestamp: "2019-12-11T07:44:13Z"
+    labels:
+      app: jhost
+      buildconfig: jhost
+      openshift.io/build-config.name: jhost
+      openshift.io/build.start-policy: Serial
+    name: jhost-1
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: jhost
+      uid: 066afaa3-1bea-11ea-8648-0a580a810062
+    resourceVersion: "54625455"
+    selfLink: /apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-1
+    uid: 068aeb59-1bea-11ea-b04b-0a580a820134
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-xwjzj
+      to:
+        kind: ImageStreamTag
+        name: jhost:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: student@workstation.lab.example.com
+          name: Student User
+        commit: 27de9efbe220c3e9b48e04014b11eeb4484f28ce
+        committer:
+          email: student@workstation.lab.example.com
+          name: Student User
+        message: Reverted changes to the Dockerfile, fix to env is done by the dc
+      type: Git
+    serviceAccount: builder
+    source:
+      contextDir: java-serverhost
+      git:
+        ref: manage-builds
+        uri: https://github.com/FlorinLacatusu/DO288-apps
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java
+        from:
+          kind: DockerImage
+          name: image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15
+        pullSecret:
+          name: builder-dockercfg-xwjzj
+      type: Source
+    triggeredBy:
+    - imageChangeBuild:
+        fromRef:
+          kind: ImageStreamTag
+          name: redhat-openjdk18-openshift:1.5
+          namespace: openshift
+        imageID: image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15
+      message: Image change
+  status:
+    completionTimestamp: "2019-12-11T07:48:38Z"
+    config:
+      kind: BuildConfig
+      name: jhost
+      namespace: florinlacatusu-manage-builds
+    duration: 265000000000
+    output:
+      to:
+        imageDigest: sha256:ddc51835743615bfafe2ec98b72f350afe62a0b76bc92f4d63558cc4398cd33b
+    outputDockerImageReference: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 489
+      name: FetchInputs
+      startTime: "2019-12-11T07:44:23Z"
+      steps:
+      - durationMilliseconds: 489
+        name: FetchGitSource
+        startTime: "2019-12-11T07:44:23Z"
+    - durationMilliseconds: 87578
+      name: PullImages
+      startTime: "2019-12-11T07:44:26Z"
+      steps:
+      - durationMilliseconds: 87578
+        name: PullBaseImage
+        startTime: "2019-12-11T07:44:26Z"
+    - durationMilliseconds: 117046
+      name: Build
+      startTime: "2019-12-11T07:45:54Z"
+      steps:
+      - durationMilliseconds: 117046
+        name: DockerBuild
+        startTime: "2019-12-11T07:45:54Z"
+    - durationMilliseconds: 46472
+      name: PushImage
+      startTime: "2019-12-11T07:47:51Z"
+      steps:
+      - durationMilliseconds: 46472
+        name: PushImage
+        startTime: "2019-12-11T07:47:51Z"
+    startTimestamp: "2019-12-11T07:44:13Z"
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: jhost
+      openshift.io/build.number: "2"
+      openshift.io/build.pod-name: jhost-2-build
+    creationTimestamp: "2019-12-11T07:56:45Z"
+    labels:
+      app: jhost
+      buildconfig: jhost
+      openshift.io/build-config.name: jhost
+      openshift.io/build.start-policy: Serial
+    name: jhost-2
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: jhost
+      uid: 066afaa3-1bea-11ea-8648-0a580a810062
+    resourceVersion: "54629064"
+    selfLink: /apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-2
+    uid: c6ee28c9-1beb-11ea-93e7-0a580a80013d
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-xwjzj
+      to:
+        kind: ImageStreamTag
+        name: jhost:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: student@workstation.lab.example.com
+          name: Student User
+        commit: 27de9efbe220c3e9b48e04014b11eeb4484f28ce
+        committer:
+          email: student@workstation.lab.example.com
+          name: Student User
+        message: Reverted changes to the Dockerfile, fix to env is done by the dc
+      type: Git
+    serviceAccount: builder
+    source:
+      contextDir: java-serverhost
+      git:
+        ref: manage-builds
+        uri: https://github.com/FlorinLacatusu/DO288-apps
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java
+        from:
+          kind: DockerImage
+          name: image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15
+        pullSecret:
+          name: builder-dockercfg-xwjzj
+      type: Source
+    triggeredBy:
+    - message: Manually triggered
+  status:
+    cancelled: true
+    completionTimestamp: "2019-12-11T07:57:33Z"
+    config:
+      kind: BuildConfig
+      name: jhost
+      namespace: florinlacatusu-manage-builds
+    duration: 48000000000
+    message: The build was cancelled by the user.
+    output: {}
+    outputDockerImageReference: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest
+    phase: Cancelled
+    reason: CancelledBuild
+    stages:
+    - durationMilliseconds: 470
+      name: FetchInputs
+      startTime: "2019-12-11T07:56:56Z"
+      steps:
+      - durationMilliseconds: 470
+        name: FetchGitSource
+        startTime: "2019-12-11T07:56:56Z"
+    startTimestamp: "2019-12-11T07:56:45Z"
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: jhost
+      openshift.io/build.number: "3"
+      openshift.io/build.pod-name: jhost-3-build
+    creationTimestamp: "2019-12-11T07:58:11Z"
+    labels:
+      app: jhost
+      buildconfig: jhost
+      openshift.io/build-config.name: jhost
+      openshift.io/build.start-policy: Serial
+    name: jhost-3
+    namespace: florinlacatusu-manage-builds
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: jhost
+      uid: 066afaa3-1bea-11ea-8648-0a580a810062
+    resourceVersion: "54630934"
+    selfLink: /apis/build.openshift.io/v1/namespaces/florinlacatusu-manage-builds/builds/jhost-3
+    uid: f9dd174f-1beb-11ea-8648-0a580a810062
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-xwjzj
+      to:
+        kind: ImageStreamTag
+        name: jhost:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: student@workstation.lab.example.com
+          name: Student User
+        commit: c63b0b01d6017eb015ec1f5a9d9825473abc186b
+        committer:
+          email: student@workstation.lab.example.com
+          name: Student User
+        message: Update the version
+      type: Git
+    serviceAccount: builder
+    source:
+      contextDir: java-serverhost
+      git:
+        ref: manage-builds
+        uri: https://github.com/FlorinLacatusu/DO288-apps
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: http://nexus-common.apps.ocp-na1.prod.nextcle.com/repository/java
+        from:
+          kind: DockerImage
+          name: image-registry.openshift-image-registry.svc:5000/openshift/redhat-openjdk18-openshift@sha256:78af15475eac13d2ff439b33a9c3bdd39147858a824c420e8042fd5f35adce15
+        pullSecret:
+          name: builder-dockercfg-xwjzj
+      type: Source
+    triggeredBy:
+    - message: Manually triggered
+  status:
+    completionTimestamp: "2019-12-11T08:02:41Z"
+    config:
+      kind: BuildConfig
+      name: jhost
+      namespace: florinlacatusu-manage-builds
+    duration: 270000000000
+    output:
+      to:
+        imageDigest: sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+    outputDockerImageReference: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 433
+      name: FetchInputs
+      startTime: "2019-12-11T07:58:25Z"
+      steps:
+      - durationMilliseconds: 433
+        name: FetchGitSource
+        startTime: "2019-12-11T07:58:25Z"
+    - durationMilliseconds: 88492
+      name: PullImages
+      startTime: "2019-12-11T07:58:28Z"
+      steps:
+      - durationMilliseconds: 88492
+        name: PullBaseImage
+        startTime: "2019-12-11T07:58:28Z"
+    - durationMilliseconds: 137164
+      name: Build
+      startTime: "2019-12-11T07:59:57Z"
+      steps:
+      - durationMilliseconds: 137164
+        name: DockerBuild
+        startTime: "2019-12-11T07:59:57Z"
+    - durationMilliseconds: 26435
+      name: PushImage
+      startTime: "2019-12-11T08:02:14Z"
+      steps:
+      - durationMilliseconds: 26435
+        name: PushImage
+        startTime: "2019-12-11T08:02:14Z"
+    startTimestamp: "2019-12-11T07:58:11Z"
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: "2019-12-11T07:44:13Z"
+    generation: 1
+    labels:
+      app: jhost
+    name: jhost
+    namespace: florinlacatusu-manage-builds
+    resourceVersion: "54630913"
+    selfLink: /apis/image.openshift.io/v1/namespaces/florinlacatusu-manage-builds/imagestreams/jhost
+    uid: 065b000a-1bea-11ea-93e7-0a580a80013d
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost
+    publicDockerImageRepository: default-route-openshift-image-registry.apps.ocp-na1.prod.nextcle.com/florinlacatusu-manage-builds/jhost
+    tags:
+    - items:
+      - created: "2019-12-11T08:02:40Z"
+        dockerImageReference: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+        generation: 1
+        image: sha256:07ba880ac005ee9730ad378e910b6767a727cee121b39390c54e752db576581e
+      - created: "2019-12-11T07:48:37Z"
+        dockerImageReference: image-registry.openshift-image-registry.svc:5000/florinlacatusu-manage-builds/jhost@sha256:ddc51835743615bfafe2ec98b72f350afe62a0b76bc92f4d63558cc4398cd33b
+        generation: 1
+        image: sha256:ddc51835743615bfafe2ec98b72f350afe62a0b76bc92f4d63558cc4398cd33b
+      tag: latest
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: "2019-12-11T07:51:09Z"
+    labels:
+      app: jhost
+    name: jhost
+    namespace: florinlacatusu-manage-builds
+    resourceVersion: "54626503"
+    selfLink: /apis/route.openshift.io/v1/namespaces/florinlacatusu-manage-builds/routes/jhost
+    uid: feca438c-1bea-11ea-8648-0a580a810062
+  spec:
+    host: jhost-florinlacatusu-manage-builds.apps.ocp-na1.prod.nextcle.com
+    port:
+      targetPort: 8080-tcp
+    subdomain: ""
+    to:
+      kind: Service
+      name: jhost
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: "2019-12-11T07:51:09Z"
+        status: "True"
+        type: Admitted
+      host: jhost-florinlacatusu-manage-builds.apps.ocp-na1.prod.nextcle.com
+      routerCanonicalHostname: apps.ocp-na1.prod.nextcle.com
+      routerName: default
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
