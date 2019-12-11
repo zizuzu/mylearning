@@ -17,7 +17,6 @@ objects:
     selfLink: /api/v1/namespaces/florinlacatusu-manage-builds/services/jhost
     uid: 1e3052eb-1bef-11ea-b1a5-02bc9323208e
   spec:
-    clusterIP: 172.30.105.102
     ports:
     - name: 8080-tcp
       port: 8080
