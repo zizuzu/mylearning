@@ -182,7 +182,6 @@ objects:
       app: jhost
     name: jhost
     namespace: florinlacatusu-manage-builds
-    resourceVersion: "54638239"
     selfLink: /apis/image.openshift.io/v1/namespaces/florinlacatusu-manage-builds/imagestreams/jhost
     uid: 1e7464ec-1bef-11ea-8648-0a580a810062
   spec:
@@ -201,7 +200,6 @@ objects:
       app: jhost
     name: jhost
     namespace: florinlacatusu-manage-builds
-    resourceVersion: "54638241"
     selfLink: /apis/route.openshift.io/v1/namespaces/florinlacatusu-manage-builds/routes/jhost
     uid: 1e7e801b-1bef-11ea-8648-0a580a810062
   spec:
