@@ -28,5 +28,5 @@ response.on('error', function(){
   res.end();
 });
 }).end();
-}).listen(8000, 'localhost');
+}).listen(8000, '');
 console.log('Server running at localhost:8000');
