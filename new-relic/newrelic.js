@@ -51,4 +51,4 @@ exports.config = {
     ]
   }
 }
-console.log("test"+config.license_key)
+console.log("test"+"  "+process.env.LICENSE_KEY)
